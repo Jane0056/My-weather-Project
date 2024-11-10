@@ -8,7 +8,9 @@ function search(event) {
 function formatDate(date) {
   let minutes = date.getMinutes();
   let hours = date.getHours();
-  let day = date.getDay();
+  let day = date.getDate();
+  let monthIndex = date.getMonth();
+  let year = date.getFullYear();
 
   if (minutes < 10) {
     minutes = `0${minutes}`;
@@ -28,19 +30,28 @@ function formatDate(date) {
     "Saturday",
   ];
 
-  let formattedDay = days[day];
-  return `${formattedDay} ${hours}:${minutes}`;
+  let months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  let formattedDay = days[date.getDay()];
+  let formattedMonth = months[monthIndex];
+
+  return `${formattedDay}, ${day} ${formattedMonth} ${year}, ${hours}:${minutes}`;
 }
 
 let searchForm = document.querySelector("#search-form");
-searchForm.addEventListener("submit", search);
-
-let currentDateELement = document.querySelector("#current-date");
-let currentDate = new Date();
-
-currentDateELement.innerHTML = formatDate(currentDate);
-
-searchForm = document.getElementById("search-form");
 let searchInput = document.getElementById("search-input");
 let currentCity = document.getElementById("current-city");
 let currentTemperatureValue = document.getElementById(
@@ -49,6 +60,7 @@ let currentTemperatureValue = document.getElementById(
 let currentTemperatureIcon = document.querySelector(
   ".current-temperature-icon"
 );
+let currentDateElement = document.querySelector("#current-date");
 
 let apiKey = "0c0fc4d0af9a25bbb3ad3644ab6e153c";
 
@@ -72,3 +84,7 @@ function fetchCityWeather(city) {
     currentTemperatureValue.textContent = Math.round(temperature);
   });
 }
+
+// Display current date and time
+let currentDate = new Date();
+currentDateElement.innerHTML = formatDate(currentDate);
